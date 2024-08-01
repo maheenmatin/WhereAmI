@@ -1,0 +1,7 @@
+# OS GENERATED FILES #
+.DS_Store
+
+# IDE GENERATED FILES #
+.idea/
+out/
+*.iml
