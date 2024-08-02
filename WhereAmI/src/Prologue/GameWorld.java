@@ -6,7 +6,6 @@ import org.jbox2d.common.Vec2;
 
 public class GameWorld extends World implements CollisionListener {
     private SceneHandler sceneHandler;
-    private GameView gameView;
     private PlayerController playerController;
     private final Player player;
     private Enemy enemy;
@@ -45,21 +44,19 @@ public class GameWorld extends World implements CollisionListener {
         player.addCollisionListener(this);
     }
 
-    public void setGameView(GameView gameView) {
-        this.gameView = gameView;
-    }
-
     public void setSceneHandler(SceneHandler sceneHandler) {
         this.sceneHandler = sceneHandler;
     }
 
     public void collide(CollisionEvent e) {
-        if (e.getOtherBody() instanceof Checkpoint && sceneHandler.getScene() != 5) {
+        if (e.getOtherBody() instanceof Checkpoint &&
+                sceneHandler.getScene() != 5) {
             player.setPosition(new Vec2(-35,-15));
             playerController.setSpeed(playerController.getSpeed()+1);
             sceneHandler.callNextScene();
         }
-        else if (e.getOtherBody() instanceof Checkpoint && sceneHandler.getScene() == 5) {
+        else if (e.getOtherBody() instanceof Checkpoint &&
+                sceneHandler.getScene() == 5) {
             player.setPosition(new Vec2(-35,-15));
             playerController.setSpeed(0);
             sceneHandler.callNextScene();
@@ -72,7 +69,7 @@ public class GameWorld extends World implements CollisionListener {
         }
     }
 
-    public void enableKeyboardControls() {
+    public void enableKeyboardControls(GameView gameView) {
         playerController = new PlayerController(player);
         gameView.addKeyListener(playerController);
     }

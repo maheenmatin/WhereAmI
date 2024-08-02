@@ -20,41 +20,41 @@ public class PlayerController implements KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        int code = e.getKeyCode();
+    public void keyPressed(KeyEvent keyEvent) {
+        int key = keyEvent.getKeyCode();
 
-        if (code == KeyEvent.VK_D && speed == 0) {
+        if (key == KeyEvent.VK_D && speed == 0) {
             player.startWalk();
             player.startWalking(0);
         }
-        else if (code == KeyEvent.VK_D && speed == 1) {
+        else if (key == KeyEvent.VK_D && speed == 1) {
             player.startWalk();
             player.startWalking(20);
         }
-        else if (code == KeyEvent.VK_D && speed == 2) {
+        else if (key == KeyEvent.VK_D && speed == 2) {
             player.startWalk();
             player.startWalking(30);
         }
-        else if (code == KeyEvent.VK_D && speed == 3) {
+        else if (key == KeyEvent.VK_D && speed == 3) {
             player.startWalk();
             player.startWalking(40);
         }
-        else if (code == KeyEvent.VK_D && speed == 4) {
+        else if (key == KeyEvent.VK_D && speed == 4) {
             player.startWalk();
             player.startWalking(30);
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        int code = e.getKeyCode();
+    public void keyReleased(KeyEvent keyEvent) {
+        int key = keyEvent.getKeyCode();
 
-        if (code == KeyEvent.VK_D) {
+        if (key == KeyEvent.VK_D) {
             player.stopWalk();
             player.startWalking(0);
         }
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent keyEvent) {}
 }

@@ -2,60 +2,63 @@ package Main;
 
 public class EventHandler {
     private static Game game;
-    private static GameWorld world;
-    private static GameView view;
-    private static Hero hero;
-    private static HeroController controller;
-    private static EventController controlRestart;
-
+    private static GameWorld gameWorld;
+    private static GameView gameView;
+    private static Player player;
+    private static PlayerController playerController;
     private static int highScore = 0;
 
-    public static void setFields(Game g) {
-        game = g;
+    public static void setGame(Game game) {
+        EventHandler.game = game;
     }
 
-    public static void setFields(GameWorld w, GameView v) {
-        world = w;
-        view = v;
-        hero = world.getHero();
+    public static void setGameWorld(GameWorld gameWorld) {
+        EventHandler.gameWorld = gameWorld;
+    }
+
+    public static void setGameView(GameView gameView) {
+        EventHandler.gameView = gameView;
+    }
+
+    public static void setPlayer(Player player) {
+        EventHandler.player = player;
     }
 
     public static void callEnd() {
-        game.timerStop();
-        world.timerStop();
-        Enemy.destroyAllEnemies();
+        game.stopTimer();
+        gameWorld.stopTimer();
+        Enemy.setDestroyAllEnemies(true);
 
-        view.removeKeyListener(controller);
-        hero.destroy();
+        gameView.removeKeyListener(playerController);
+        player.destroy();
 
-        if (view.getScore() > highScore) {
-            highScore = view.getScore();
+        if (gameView.getScore() > highScore) {
+            highScore = gameView.getScore();
         }
-        view.setHighScore(highScore);
+        gameView.setHighScore(highScore);
 
-        view.setActiveGame(false);
+        gameView.setActiveGame(false);
 
         EventController controlRestart = new EventController();
-        view.addKeyListener(controlRestart);
+        gameView.addKeyListener(controlRestart);
     }
 
     public static void updateTime() {
-        if (view.getTime() > 0) {
-            view.setTime(view.getTime() - 1);
-        } else if (view.getTime() <= 0 ) {
+        if (gameView.getTime() > 0) {
+            gameView.setTime(gameView.getTime() - 1);
+        } else if (gameView.getTime() <= 0 ) {
             callEnd();
         }
     }
 
     public static void updateScore() {
-        view.setScore(view.getScore() + 1);
+        gameView.setScore(gameView.getScore() + 1);
     }
 
     public static void restart() {
         GameAudio.stopSound();
-
-        Enemy.initialize();
-        world.stop();
+        Enemy.setDestroyAllEnemies(false);
+        gameWorld.stop();
 
         Master.Master.callChapter();
     }

@@ -2,28 +2,27 @@ package Main;
 
 import city.cs.engine.*;
 import city.cs.engine.Shape;
-import org.jbox2d.common.Vec2;
 
-public class Stairs extends Environment{
-    private static final BodyImage left = new BodyImage("data/Objects/stairs-left.png", 10);
-    private static final BodyImage right = new BodyImage("data/Objects/stairs-right.png", 10);
-    private static final Shape shapeLeft =
-            new PolygonShape(-5.0f,-5.0f, 4.98f,-4.98f, 4.98f,5.0f, -4.96f,-4.92f);
-    private static final Shape shapeRight =
-            new PolygonShape(-4.98f,4.98f, 4.98f,-4.98f, -4.98f,-5.0f, -5.0f,4.76f);
+public class Stairs extends StaticBody {
+    private static final Shape leftShape =
+            new PolygonShape(-5.0f, -5.0f, 4.98f, -4.98f, 4.98f, 5.0f,
+                    -4.96f, -4.92f);
+    private static final Shape rightShape =
+            new PolygonShape(-4.98f, 4.98f, 4.98f, -4.98f, -4.98f, -5.0f,
+                    -5.0f, 4.76f);
 
-    public Stairs(World w) {
-        super(w, shapeLeft);
-        addImage(left);
+    private static final BodyImage leftImage = new BodyImage(
+            "data/Objects/stairs-left.png", 10);
+    private static final BodyImage rightImage = new BodyImage(
+            "data/Objects/stairs-right.png", 10);
+
+    public Stairs(World world) {
+        super(world, leftShape);
+        addImage(leftImage);
     }
 
-    public Stairs(World w, String s) {
-        super(w, shapeRight);
-        addImage(right);
-    }
-
-    @Override
-    public Vec2 getPosition() {
-        return super.getPosition();
+    public Stairs(World world, Boolean reverse) {
+        super(world, reverse ? rightShape : leftShape);
+        addImage(reverse ? rightImage : leftImage);
     }
 }

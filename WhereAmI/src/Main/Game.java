@@ -1,67 +1,47 @@
 package Main;
 
 import javax.swing.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Game implements ActionListener {
-
-    private GameWorld world;
-    private GameView view;
+    private final GameView gameView;
     private Timer timer;
-    private HeroController controller;
 
     public Game() {
-
-        //make game world
-        world = new GameWorld();
-
-        //make game view and link it to the game world
-        view = new GameView(world, 800, 600);
-        //view.setGridResolution(1); //draw a 1-meter grid
-        view.setZoom(10);
-
-        //add keyboard control to hero
-        controller = new HeroController(world.getHero());
-        view.addKeyListener(controller);
-
-        //enable key press detection when mouse is in view
-        GiveFocus focus = new GiveFocus(view);
-        view.addMouseListener(focus);
-
-        //fix view to student
-        world.addStepListener(new Tracker(view, world.getHero()));
-
-        //add audio
+        // create game components
+        GameWorld gameWorld = new GameWorld();
+        gameView = new GameView(gameWorld, 800, 600);
+        gameView.setZoom(10);
+        gameWorld.enableKeyboardControls(gameView);
         GameAudio.playSound();
+        startTimer();
 
-        //enable response to key presses
-        view.requestFocus();
+        // fix view to player
+        gameWorld.addStepListener(new Tracker(gameView, gameWorld.getPlayer()));
 
-        //give fields to EventHandler
-        EventHandler.setFields(world, view);
+        // enable key press detection when mouse is in view
+        gameView.addMouseListener(new GiveFocus(gameView));
+        // enable response to key presses
+        gameView.requestFocus();
 
-        //start the game world simulation
-        world.start();
+        EventHandler.setGame(this);
+        EventHandler.setGameWorld(gameWorld);
+        EventHandler.setGameView(gameView);
+        EventHandler.setPlayer(gameWorld.getPlayer());
+        gameWorld.start();
 
-        //start timer
-        timerStart();
-
-        //create a Java window/frame and add the game view to it
+        // create a Java window/frame and add the game view to it
         JFrame frame = new JFrame("Where Am I?");
-        frame.add(view);
+        frame.add(gameView);
 
-        //make the frame quit the application when x is pressed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationByPlatform(true);
 
-        frame.setResizable(false); //disable frame resizing
-        frame.pack(); //size the frame to fit the world view
-        frame.setLocationRelativeTo(null); //center the frame
-        frame.setVisible(true); //make the frame visible
-
-        //JFrame debugView = new DebugViewer(world, 500, 500); //enable debug-view
+        frame.setResizable(false); // disable frame resizing
+        frame.pack(); // size the frame to fit the world view
+        frame.setLocationRelativeTo(null); // center the frame
+        frame.setVisible(true); // make the frame visible
     }
 
     @Override
@@ -69,17 +49,17 @@ public class Game implements ActionListener {
         EventHandler.updateTime();
     }
 
-    public GameView getView() {
-        return view;
+    public GameView getGameView() {
+        return gameView;
     }
 
-    public void timerStart() {
+    public void startTimer() {
         timer = new Timer(1000, this);
         timer.setInitialDelay(1500);
         timer.start();
     }
 
-    public void timerStop() {
+    public void stopTimer() {
         timer.stop();
     }
 }

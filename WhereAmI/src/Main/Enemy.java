@@ -1,77 +1,57 @@
 package Main;
 
 import city.cs.engine.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.*;
 
-public abstract class Enemy extends Walker implements ActionListener, StepListener, CollisionListener {
-
-    private final int SPEED = 10;
-    private Random rand = new Random();
-    private Boolean bool; //bool = true
-    private Timer timer;
-    private static boolean destroyEnemies;
+public abstract class Enemy extends Walker implements ActionListener, StepListener {
+    private static final Random rand = new Random();
+    private static boolean destroyAllEnemies;
 
     public Enemy(World world) {
         super(world);
         world.addStepListener(this);
-        addCollisionListener(this);
-        //setLineColor(Color.white);
-        //setAlwaysOutline(true);
 
-        timer = new Timer(10000, this);
+        Timer timer = new Timer(10000, this);
         timer.setInitialDelay(10000);
         timer.start();
 
-        bool = rand.nextBoolean();
-        if (bool) {
-            giveShapeRight();
-            giveImageRight();
-            startWalking(SPEED);
+        if (rand.nextBoolean()) {
+            assignShapeRight();
+            assignImageRight();
+            startWalking(10);
         }
         else {
-            giveShapeLeft();
-            giveImageLeft();
-            startWalking(-SPEED);
+            assignShapeLeft();
+            assignImageLeft();
+            startWalking(-10);
         }
     }
 
-    public abstract void giveShapeRight();
-    public abstract void giveImageRight();
-
-    public abstract void giveShapeLeft();
-    public abstract void giveImageLeft();
+    public static void setDestroyAllEnemies(boolean destroyAllEnemies) {
+        Enemy.destroyAllEnemies = destroyAllEnemies;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.destroy();
+        destroy();
     }
 
     @Override
     public void preStep(StepEvent stepEvent) {
-        if (destroyEnemies) {
+        if (destroyAllEnemies) {
             destroy();
         }
     }
 
     @Override
-    public void postStep(StepEvent stepEvent) {
-    }
+    public void postStep(StepEvent stepEvent) {}
 
-    public void collide(CollisionEvent e) {
-        if (e.getOtherBody() instanceof Hero && HeroController.getAttack()) {
-            destroy();
-            EventHandler.updateScore();
-        }
-    }
-
-    public static void destroyAllEnemies() {
-        destroyEnemies = true;
-    }
-
-    public static void initialize() {
-        destroyEnemies = false;
-    }
+    public abstract void assignShapeLeft();
+    public abstract void assignShapeRight();
+    public abstract void assignImageLeft();
+    public abstract void assignImageRight();
 }
