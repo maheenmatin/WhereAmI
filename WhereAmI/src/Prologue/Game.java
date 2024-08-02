@@ -1,51 +1,25 @@
 package Prologue;
 
-import javax.swing.*;
-
 public class Game {
-
-    private Student student;
-    private static GameWorld world;
-    private GameView view;
-    private SceneHandler handler;
-    private static JFrame frame;
-    private Timer timer;
-
-    public JFrame getFrame() {
-        return frame;
-    }
+    private final GameView gameView;
 
     public Game() {
+        // create game components
+        GameWorld gameWorld = new GameWorld();
+        gameView = new GameView(gameWorld, 800, 600);
+        gameView.setZoom(10);
+        gameWorld.setSceneHandler(new SceneHandler(gameView, gameWorld));
+        gameWorld.setGameView(gameView);
 
-        //make game world
-        world = new GameWorld();
+        // enable key press detection when mouse is in view
+        gameView.addMouseListener(new GiveFocus(gameView));
+        // enable response to key presses
+        gameView.requestFocus();
 
-        //make game view and link it to the game world
-        view = new GameView(world, 800, 600);
-        //view.setGridResolution(1); //draw a 1-meter grid
-        view.setZoom(10);
-
-        //get fields for scene handling
-        handler = new SceneHandler(view, world);
-        timerHandle();
-        world.getFields(view, handler, timer);
-
-        //enable key press detection when mouse is in view
-        GiveFocus focus = new GiveFocus(view);
-        view.addMouseListener(focus);
-
-        world.start(); //start the game world simulation
-
-        view.requestFocus(); //enable response to key presses
+        gameWorld.start();
     }
 
-    public void timerHandle() {
-        timer = new Timer(4500, world);
-        timer.setInitialDelay(3900);
-        timer.start();
-    }
-
-    public GameView getView() {
-        return view;
+    public GameView getGameView() {
+        return gameView;
     }
 }

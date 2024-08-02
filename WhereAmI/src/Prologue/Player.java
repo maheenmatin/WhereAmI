@@ -2,8 +2,10 @@ package Prologue;
 
 import city.cs.engine.*;
 
-public class Student extends Walker {
-    private static final Shape studentShape = new PolygonShape(
+public class Player extends Walker {
+    private SolidFixture solidFixture;
+
+    private static final Shape idleShape = new PolygonShape(
             -0.19f,3.58f,
             1.31f,2.9f,
             1.39f,-5.0f,
@@ -11,7 +13,7 @@ public class Student extends Walker {
             -1.17f,-1.62f,
             -1.35f,1.6f);
 
-    private static final Shape studentShape2 = new PolygonShape(
+    private static final Shape walkShape = new PolygonShape(
             1.61f,0.24f,
             1.71f,-4.86f,
             -1.43f,-4.86f,
@@ -19,31 +21,28 @@ public class Student extends Walker {
             -0.83f,3.62f,
             1.33f,3.1f);
 
-    private static final BodyImage image =
+    private static final BodyImage idleImage =
             new BodyImage("data/Characters/Prologue/hat-man-idle.gif", 10f);
-    private static final BodyImage image2 =
+    private static final BodyImage walkImage =
             new BodyImage("data/Characters/Prologue/hat-man-walk.gif", 10f);
 
-    private SolidFixture fixture;
-
-    public Student(World world) {
+    public Player(World world) {
         super(world);
-        fixture = new SolidFixture(this, studentShape);
-        addImage(image);
-        //setAlwaysOutline(true);
+        solidFixture = new SolidFixture(this, idleShape);
+        addImage(idleImage);
     }
 
     public void startWalk() {
-        fixture.destroy();
-        fixture = new SolidFixture(this, studentShape2);
+        solidFixture.destroy();
+        solidFixture = new SolidFixture(this, walkShape);
         removeAllImages();
-        addImage(image2);
+        addImage(walkImage);
     }
 
     public void stopWalk() {
-        fixture.destroy();
-        fixture = new SolidFixture(this, studentShape);
+        solidFixture.destroy();
+        solidFixture = new SolidFixture(this, idleShape);
         removeAllImages();
-        addImage(image);
+        addImage(idleImage);
     }
 }

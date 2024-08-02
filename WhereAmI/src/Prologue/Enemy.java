@@ -2,8 +2,8 @@ package Prologue;
 
 import city.cs.engine.*;
 
-public class Professor extends Walker {
-    private static final Shape professorShape = new PolygonShape(
+public class Enemy extends Walker {
+    private static final Shape shape = new PolygonShape(
             0.24f,3.82f,
             -1.04f,3.3f,
             -2.4f,-3.0f,
@@ -15,9 +15,8 @@ public class Professor extends Walker {
     private static final BodyImage image =
             new BodyImage("data/Characters/Prologue/woman-idle.gif", 10f);
 
-    public Professor(World world) {
-        super(world, professorShape);
+    public Enemy(World world) {
+        super(world, shape);
         addImage(image);
-        //setAlwaysOutline(true);
     }
 }

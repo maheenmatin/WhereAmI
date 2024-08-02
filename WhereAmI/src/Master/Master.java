@@ -16,7 +16,7 @@ public class Master {
     public static void makeFrame() {
         //create a Java window/frame and add the game view to it
         frame = new JFrame("Where Am I?");
-        frame.add(game0.getView());
+        frame.add(game0.getGameView());
 
         //make the frame quit the application when x is pressed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +43,7 @@ public class Master {
             game1 = new Main.Game();
             Main.EventHandler.setFields(game1);
 
-            frame.remove(game0.getView());
+            frame.remove(game0.getGameView());
             frame.add(game1.getView());
             frame.setVisible(true);
 
