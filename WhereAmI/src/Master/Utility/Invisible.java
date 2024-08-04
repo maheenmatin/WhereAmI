@@ -1,4 +1,4 @@
-package Master;
+package Master.Utility;
 
 import city.cs.engine.Body;
 import java.awt.*;

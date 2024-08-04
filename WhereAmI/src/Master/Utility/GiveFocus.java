@@ -1,4 +1,4 @@
-package Master;
+package Master.Utility;
 
 import city.cs.engine.UserView;
 import java.awt.event.MouseEvent;

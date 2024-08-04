@@ -1,7 +1,7 @@
 package Prologue;
 
 import Master.GameView;
-import Master.GiveFocus;
+import Master.Utility.GiveFocus;
 
 public class Game {
     private final GameView gameView;

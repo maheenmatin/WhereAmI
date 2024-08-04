@@ -1,6 +1,7 @@
-package Master;
+package Master.Utility;
 
 import Main.Characters.Player;
+import Master.GameView;
 import city.cs.engine.StepEvent;
 import city.cs.engine.StepListener;
 import org.jbox2d.common.Vec2;

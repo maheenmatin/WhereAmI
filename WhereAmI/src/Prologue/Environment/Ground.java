@@ -1,6 +1,6 @@
 package Prologue.Environment;
 
-import Master.Invisible;
+import Master.Utility.Invisible;
 import city.cs.engine.*;
 
 public class Ground extends StaticBody {

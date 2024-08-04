@@ -6,6 +6,7 @@ import Main.Environment.Ground;
 import Main.Environment.Spike;
 import Main.Environment.Stairs;
 import Main.Environment.Wall;
+import Main.Handlers.EventHandler;
 import Master.GameView;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
@@ -125,6 +126,7 @@ public class GameWorld extends World implements CollisionListener, ActionListene
         else {
             enemy = new Skeleton(this);
         }
-        enemy.setPosition(new Vec2(rand.nextInt(500), rand.nextInt(50)));
+        enemy.setPosition(new Vec2(rand.nextInt(480) + 10,
+                rand.nextInt(50)));
     }
 }
