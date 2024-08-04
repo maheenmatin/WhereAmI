@@ -1,6 +1,6 @@
 package Main.Controllers;
 
-import Main.EventHandler;
+import Main.Handlers.EventHandler;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

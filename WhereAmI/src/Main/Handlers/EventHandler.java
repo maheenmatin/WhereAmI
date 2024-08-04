@@ -1,7 +1,9 @@
-package Main;
+package Main.Handlers;
 
 import Main.Characters.Enemy;
 import Main.Characters.Player;
+import Main.Game;
+import Main.GameWorld;
 import Master.GameView;
 import org.jbox2d.common.Vec2;
 

@@ -1,7 +1,8 @@
 package Main;
 
+import Main.Handlers.EventHandler;
 import Master.GameView;
-import Master.Tracker;
+import Master.Utility.Tracker;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
