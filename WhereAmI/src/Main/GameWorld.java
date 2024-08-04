@@ -6,6 +6,7 @@ import Main.Environment.Ground;
 import Main.Environment.Spike;
 import Main.Environment.Stairs;
 import Main.Environment.Wall;
+import Master.GameView;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 import javax.swing.*;
@@ -14,24 +15,22 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class GameWorld extends World implements CollisionListener, ActionListener {
+    private Timer timer;
     private Player player;
     private PlayerController playerController;
-    private GameView gameView;
-    private Timer timer;
+    private final GameView gameView;
     private final Random rand = new Random();
 
-    public GameWorld() {
+    public GameWorld(GameView gameView) {
+        this.gameView = gameView;
         createEnvironment();
         createPlayer();
+        enableKeyboardControls();
         enableEnemyCreation();
     }
 
     public Player getPlayer() {
         return player;
-    }
-
-    public void setGameView(GameView gameView) {
-        this.gameView = gameView;
     }
 
     private void createEnvironment() {
@@ -80,23 +79,27 @@ public class GameWorld extends World implements CollisionListener, ActionListene
         player.addCollisionListener(this);
     }
 
+    public void enableKeyboardControls() {
+        playerController = new PlayerController(player);
+        gameView.addKeyListener(playerController);
+    }
+
     public void enableEnemyCreation() {
         timer = new Timer(1000, this);
         timer.setInitialDelay(0);
         timer.start();
     }
-
     public void disableEnemyCreation() {
         timer.stop();
     }
 
-    public void collide(CollisionEvent collisionEvent) {
-        Vec2 heroPosition = player.getPosition();
-        Body otherBody = collisionEvent.getOtherBody();
+    public void collide(CollisionEvent ce) {
+        Vec2 playerPosition = player.getPosition();
+        Body otherBody = ce.getOtherBody();
         Vec2 otherPosition = otherBody.getPosition();
 
-        if (otherBody instanceof Ground && heroPosition.y < otherPosition.y + 5) {
-            player.setPosition(new Vec2(heroPosition.x, heroPosition.y + 5));
+        if (otherBody instanceof Ground && playerPosition.y < otherPosition.y + 5) {
+            player.setPosition(new Vec2(playerPosition.x, playerPosition.y + 5));
         }
         else if (otherBody instanceof Enemy && playerController.isAttacking()) {
             otherBody.destroy();
@@ -108,7 +111,7 @@ public class GameWorld extends World implements CollisionListener, ActionListene
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
+    public void actionPerformed(ActionEvent ae) {
         // create new enemy every 1 second
         int enemyType = rand.nextInt(3);
         Enemy enemy;
@@ -123,10 +126,5 @@ public class GameWorld extends World implements CollisionListener, ActionListene
             enemy = new Skeleton(this);
         }
         enemy.setPosition(new Vec2(rand.nextInt(500), rand.nextInt(50)));
-    }
-
-    public void enableKeyboardControls() {
-        playerController = new PlayerController(player);
-        gameView.addKeyListener(playerController);
     }
 }

@@ -1,5 +1,6 @@
 package Prologue;
 
+import Master.GameView;
 import Prologue.Characters.Enemy;
 import Prologue.Characters.Player;
 import Prologue.Environment.Checkpoint;
@@ -55,14 +56,14 @@ public class GameWorld extends World implements CollisionListener {
         enemy.destroy();
     }
 
-    public void collide(CollisionEvent e) {
-        if (e.getOtherBody() instanceof Checkpoint &&
+    public void collide(CollisionEvent ce) {
+        if (ce.getOtherBody() instanceof Checkpoint &&
                 sceneHandler.getScene() != 5) {
             player.setPosition(new Vec2(-35,-15));
             playerController.setSpeed(playerController.getSpeed()+1);
             sceneHandler.callNextScene();
         }
-        else if (e.getOtherBody() instanceof Checkpoint &&
+        else if (ce.getOtherBody() instanceof Checkpoint &&
                 sceneHandler.getScene() == 5) {
             player.setPosition(new Vec2(-35,-15));
             playerController.setSpeed(0);

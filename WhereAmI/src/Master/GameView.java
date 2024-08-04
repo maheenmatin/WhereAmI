@@ -3,7 +3,6 @@ package Master;
 import Main.Controllers.RestartController;
 import city.cs.engine.UserView;
 import city.cs.engine.World;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -33,15 +32,12 @@ public class GameView extends UserView {
     public void setPrologueImage(Image prologueImage) {
         this.prologueImage = prologueImage;
     }
-
     public int getTime() {
         return time;
     }
-
     public void setTime(int time) {
         this.time = time;
     }
-
     public void setPrologue(boolean prologue) {
         this.prologue = prologue;
     }

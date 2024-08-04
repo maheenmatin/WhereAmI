@@ -2,6 +2,7 @@ package Main;
 
 import Main.Characters.Enemy;
 import Main.Characters.Player;
+import Master.GameView;
 import org.jbox2d.common.Vec2;
 
 public class EventHandler {
@@ -13,15 +14,12 @@ public class EventHandler {
     public static void setGame(Game game) {
         EventHandler.game = game;
     }
-
     public static void setGameWorld(GameWorld gameWorld) {
         EventHandler.gameWorld = gameWorld;
     }
-
     public static void setGameView(GameView gameView) {
         EventHandler.gameView = gameView;
     }
-
     public static void setPlayer(Player player) {
         EventHandler.player = player;
     }
