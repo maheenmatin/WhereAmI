@@ -10,7 +10,7 @@ import javax.swing.*;
 public abstract class Enemy extends Walker implements ActionListener, StepListener {
     private final Timer timer;
     private static final Random rand = new Random();
-    private static ArrayList<Enemy> enemyList = new ArrayList<>();
+    private static final ArrayList<Enemy> enemyList = new ArrayList<>();
 
     public Enemy(World world) {
         super(world);
@@ -29,7 +29,6 @@ public abstract class Enemy extends Walker implements ActionListener, StepListen
             assignImageLeft();
             startWalking(-10);
         }
-
         enemyList.add(this);
     }
 
@@ -42,15 +41,15 @@ public abstract class Enemy extends Walker implements ActionListener, StepListen
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
+    public void actionPerformed(ActionEvent ae) {
         destroy();
         timer.stop();
     }
 
-    @Override
-    public void postStep(StepEvent stepEvent) {}
     public abstract void assignShapeLeft();
     public abstract void assignShapeRight();
     public abstract void assignImageLeft();
     public abstract void assignImageRight();
+    @Override
+    public void postStep(StepEvent se) {}
 }

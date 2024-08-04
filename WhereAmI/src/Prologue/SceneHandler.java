@@ -34,11 +34,10 @@ public class SceneHandler implements ActionListener {
     public SceneHandler(GameView gameView, GameWorld gameWorld) {
         this.gameView = gameView;
         this.gameWorld = gameWorld;
+        timer = new Timer(4500, this); //4500
+        timer.setInitialDelay(3900); //3900
 
-        timer = new Timer(1000, this); //4500
-        timer.setInitialDelay(1000); //3900
         timer.start();
-
         callNextScene();
     }
 
@@ -48,10 +47,7 @@ public class SceneHandler implements ActionListener {
 
     public void callNextScene() {
         switch (++scene) {
-            case 1 -> {
-                GameAudio.playSound();
-                gameView.setPrologueImage(initial);
-            }
+            case 1 -> gameView.setPrologueImage(initial);
             case 2 -> {
                 gameWorld.enableKeyboardControls(gameView);
                 timer.stop();

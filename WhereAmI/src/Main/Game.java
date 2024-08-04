@@ -1,8 +1,6 @@
 package Main;
 
-import Master.GameAudio;
 import Master.GameView;
-import Master.GiveFocus;
 import Master.Tracker;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,15 +10,12 @@ public class Game implements ActionListener {
     private final GameView gameView;
     private Timer timer;
 
-    public Game(GameView gameView) {
+    public Game(GameView view) {
         // create game components
-        GameWorld gameWorld = new GameWorld();
-        this.gameView = gameView;
+        this.gameView = view;
+        GameWorld gameWorld = new GameWorld(gameView);
         gameView.setWorld(gameWorld);
         gameView.setZoom(10);
-        gameWorld.setGameView(gameView);
-        gameWorld.enableKeyboardControls();
-        GameAudio.playSound();
 
         EventHandler.setGame(this);
         EventHandler.setGameWorld(gameWorld);
@@ -29,17 +24,9 @@ public class Game implements ActionListener {
 
         // fix view to player
         gameWorld.addStepListener(new Tracker(gameView, gameWorld.getPlayer()));
-        // enable key press detection when mouse is in view
-        gameView.addMouseListener(new GiveFocus(gameView));
-        // enable response to key presses
-        gameView.requestFocus();
 
         enableCountdown();
         gameWorld.start();
-    }
-
-    public GameView getGameView() {
-        return gameView;
     }
 
     public void enableCountdown() {
@@ -47,7 +34,6 @@ public class Game implements ActionListener {
         timer.setInitialDelay(1500);
         timer.start();
     }
-
     public void disableCountdown() {
         timer.stop();
     }

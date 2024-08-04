@@ -49,35 +49,30 @@ public class Player extends Walker {
         removeAllImages();
         addImage(leftRunImage);
     }
-
     public void startWalkRight() {
         fixture.destroy();
         fixture = new SolidFixture(this, rightWalkShape);
         removeAllImages();
         addImage(rightRunImage);
     }
-
     public void stopWalkLeft() {
         fixture.destroy();
         fixture = new SolidFixture(this, leftIdleShape);
         removeAllImages();
         addImage(leftIdleImage);
     }
-
     public void stopWalkRight() {
         fixture.destroy();
         fixture = new SolidFixture(this, rightIdleShape);
         removeAllImages();
         addImage(rightIdleImage);
     }
-
     public void attackLeft() {
         fixture.destroy();
         fixture = new SolidFixture(this, leftAttackShape);
         removeAllImages();
         addImage(leftAttackImage);
     }
-
     public void attackRight() {
         fixture.destroy();
         fixture = new SolidFixture(this, rightAttackShape);

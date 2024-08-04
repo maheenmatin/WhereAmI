@@ -29,7 +29,6 @@ public class Player extends Walker {
         removeAllImages();
         addImage(walkImage);
     }
-
     public void stopWalk() {
         solidFixture.destroy();
         solidFixture = new SolidFixture(this, idleShape);

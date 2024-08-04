@@ -19,25 +19,25 @@ public class PlayerController implements KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent keyEvent) {
-        int code = keyEvent.getKeyCode();
+    public void keyPressed(KeyEvent ke) {
+        int key = ke.getKeyCode();
 
-        if (code == KeyEvent.VK_W) {
+        if (key == KeyEvent.VK_W) {
             player.jump(25);
         }
-        else if (code == KeyEvent.VK_A) {
+        else if (key == KeyEvent.VK_A) {
             left = true;
             walking = true;
             player.startWalkLeft();
             player.startWalking(-25);
         }
-        else if (code == KeyEvent.VK_D) {
+        else if (key == KeyEvent.VK_D) {
             left = false;
             walking = true;
             player.startWalkRight();
             player.startWalking(25);
         }
-        else if (code == KeyEvent.VK_S) {
+        else if (key == KeyEvent.VK_S) {
             attacking = true;
             if (left) {
                 player.attackLeft();
@@ -49,20 +49,20 @@ public class PlayerController implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent keyEvent) {
-        int code = keyEvent.getKeyCode();
+    public void keyReleased(KeyEvent ke) {
+        int key = ke.getKeyCode();
 
-        if (code == KeyEvent.VK_A) {
+        if (key == KeyEvent.VK_A) {
             walking = false;
             player.stopWalkLeft();
             player.startWalking(0);
         }
-        else if (code == KeyEvent.VK_D) {
+        else if (key == KeyEvent.VK_D) {
             walking = false;
             player.stopWalkRight();
             player.startWalking(0);
         }
-        else if (code == KeyEvent.VK_S) {
+        else if (key == KeyEvent.VK_S) {
             attacking = false;
             if (left && walking) {
                 player.startWalkLeft();
@@ -80,5 +80,5 @@ public class PlayerController implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent keyEvent) {}
+    public void keyTyped(KeyEvent ke) {}
 }
