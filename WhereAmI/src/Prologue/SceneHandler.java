@@ -1,67 +1,85 @@
 package Prologue;
 
+import Master.GameAudio;
+import Master.Master;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-class SceneHandler {
-    private Image image;
+public class SceneHandler implements ActionListener {
+    private static final Image initial = new ImageIcon(
+            "data/Backgrounds/blankWhere.jpg").getImage();
+    private static final Image press = new ImageIcon(
+            "data/Backgrounds/moonPress.png").getImage();
+    private static final Image why = new ImageIcon(
+            "data/Backgrounds/why.png").getImage();
+    private static final Image letMe = new ImageIcon(
+            "data/Backgrounds/letMe.png").getImage();
+    private static final Image needToBe = new ImageIcon(
+            "data/Backgrounds/needToBe.png").getImage();
+    private static final Image blank = new ImageIcon(
+            "data/Backgrounds/blank.jpg").getImage();
+    private static final Image youCan = new ImageIcon(
+            "data/Backgrounds/blankYouCan.jpg").getImage();
+    private static final Image see = new ImageIcon(
+            "data/Backgrounds/blankSee.jpg").getImage();
 
-    private int chapter = 0;
+    private final GameView gameView;
+    private final GameWorld gameWorld;
+    private final Timer timer;
     private int scene = 0;
 
-    private GameView view;
-    private GameWorld world;
-    private Game game;
+    public SceneHandler(GameView gameView, GameWorld gameWorld) {
+        this.gameView = gameView;
+        this.gameWorld = gameWorld;
 
-    private static final Image background = new ImageIcon("data/Backgrounds/moon.png").getImage();
-    private static final Image press = new ImageIcon("data/Backgrounds/moonPress.png").getImage();
-    private static final Image why = new ImageIcon("data/Backgrounds/why.png").getImage();
-    private static final Image letMe = new ImageIcon("data/Backgrounds/letMe.png").getImage();
-    private static final Image needToBe = new ImageIcon("data/Backgrounds/needToBe.png").getImage();
-    private static final Image blank = new ImageIcon("data/Backgrounds/blank.jpg").getImage();
-    private static final Image youCan = new ImageIcon("data/Backgrounds/blankYouCan.jpg").getImage();
-    private static final Image see = new ImageIcon("data/Backgrounds/blankSee.jpg").getImage();
+        timer = new Timer(4500, this);
+        timer.setInitialDelay(3900);
+        timer.start();
 
-    public SceneHandler(GameView view, GameWorld world) {
-        this.view = view;
-        this.world = world;
+        callNextScene();
     }
 
-    public void setScene(int scene) {
-        this.scene = scene;
-    }
-
-    public int GetScene() {
+    public int getScene() {
         return scene;
     }
 
-    public void changeScene() {
-        if (scene == 1) {
-            view.setImage(press);
-        } else if (scene == 2) {
-            view.setImage(why);
-        } else if (scene == 3) {
-            view.setImage(letMe);
-        } else if (scene == 4) {
-            view.setImage(needToBe);
-        } else if (scene == 5) {
-            view.setImage(blank);
-        } else if (scene == 6) {
-            view.setImage(blank);
-        } else if (scene == 7) {
-            view.setImage(youCan);
-        } else if (scene == 8) {
-            GameAudio.stopSound();
-            world.destroy();
-            view.setImage(see);
-        } else if (scene == 9) {
-            view.setImage(blank);
-            chapter++; //1
-            scene++; //1
-            Master.Master.setChapter(chapter);
-            Master.Master.callChapter();
-        } else {
-            view.setImage(blank);
+    public void callNextScene() {
+        switch (++scene) {
+            case 1 -> {
+                GameAudio.playSound();
+                gameView.setPrologueImage(initial);
+            }
+            case 2 -> {
+                gameWorld.enableKeyboardControls(gameView);
+                timer.stop();
+                gameView.setPrologueImage(press);
+            }
+            case 3 -> gameView.setPrologueImage(why);
+            case 4 -> gameView.setPrologueImage(letMe);
+            case 5 -> gameView.setPrologueImage(needToBe);
+            case 6, 7 -> gameView.setPrologueImage(blank);
+            case 8 -> gameView.setPrologueImage(youCan);
+            case 9 -> {
+                GameAudio.stopSound();
+                gameWorld.destroyCharacters();
+                gameView.setPrologueImage(see);
+            }
+            case 10 -> {
+                timer.stop();
+                gameView.setPrologueImage(blank);
+                Master.callMainGame();
+            }
         }
+    }
+
+    public void startTimer() {
+        timer.start();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        callNextScene();
     }
 }

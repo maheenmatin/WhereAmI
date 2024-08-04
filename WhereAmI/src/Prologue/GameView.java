@@ -2,25 +2,21 @@ package Prologue;
 
 import city.cs.engine.UserView;
 import city.cs.engine.World;
-
-import javax.swing.*;
 import java.awt.*;
 
 public class GameView extends UserView {
-    private Image image;
-    private Image initial = new ImageIcon("data/Backgrounds/blankWhere.jpg").getImage();
+    private Image prologueImage;
 
-    public GameView(World w, int width, int height) {
-        super(w, width, height);
-        image = initial;
+    public GameView(World world, int width, int height) {
+        super(world, width, height);
+    }
+
+    public void setPrologueImage(Image prologueImage) {
+        this.prologueImage = prologueImage;
     }
 
     @Override
-    protected void paintBackground(Graphics2D g) {
-        g.drawImage(image, 0, 0, this);
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
+    protected void paintBackground(Graphics2D graphics2D) {
+        graphics2D.drawImage(prologueImage, 0, 0, this);
     }
 }

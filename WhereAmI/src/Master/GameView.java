@@ -1,15 +1,17 @@
-package Main;
+package Master;
 
 import Main.Controllers.RestartController;
 import city.cs.engine.UserView;
 import city.cs.engine.World;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class GameView extends UserView {
-    private static final Image background = new ImageIcon(
+    private Image prologueImage;
+    private static final Image mainImage = new ImageIcon(
             "data/Backgrounds/mainlevel.png").getImage();
-    private static final Image backgroundEnd = new ImageIcon(
+    private static final Image endImage = new ImageIcon(
             "data/Backgrounds/blank.jpg").getImage();
 
     private static final Font font = new Font("Monospaced", Font.PLAIN, 20);
@@ -18,6 +20,7 @@ public class GameView extends UserView {
     private int time = 60;
     private int score = 0;
     private int highScore = 0;
+    private boolean prologue = true;
     private boolean activeMain = true;
     private final RestartController restartController;
 
@@ -27,12 +30,20 @@ public class GameView extends UserView {
         this.addKeyListener(restartController);
     }
 
+    public void setPrologueImage(Image prologueImage) {
+        this.prologueImage = prologueImage;
+    }
+
     public int getTime() {
         return time;
     }
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    public void setPrologue(boolean prologue) {
+        this.prologue = prologue;
     }
 
     public void updateScore() {
@@ -56,22 +67,27 @@ public class GameView extends UserView {
 
     @Override
     protected void paintBackground(Graphics2D g) {
-        if (activeMain) {
-            g.drawImage(background, 0, 0, this);
+        if (prologue) {
+            g.drawImage(prologueImage, 0, 0, this);
+        }
+        else if (activeMain) {
+            g.drawImage(mainImage, 0, 0, this);
         }
         else {
-            g.drawImage(backgroundEnd, 0, 0, this);
+            g.drawImage(endImage, 0, 0, this);
         }
     }
 
     @Override
     protected void paintForeground(Graphics2D g) {
-        if (activeMain) {
+        if (prologue) {}
+        else if (activeMain) {
             g.setColor(new Color(200, 150, 150));
             g.setFont(font);
             g.drawString("TIME  " + time, 10, 25);
             g.drawString("SCORE " + score, 10, 50);
-        } else {
+        }
+        else {
             g.setColor(new Color(255, 255, 255));
             g.setFont(fontEnd);
             g.drawString("GAME OVER", 285, 150);

@@ -1,62 +1,42 @@
 package Main;
 
+import Main.Characters.Enemy;
+import Main.Characters.Player;
+import org.jbox2d.common.Vec2;
+
 public class EventHandler {
     private static Game game;
-    private static GameWorld world;
-    private static GameView view;
-    private static Hero hero;
-    private static HeroController controller;
-    private static EventController controlRestart;
+    private static GameWorld gameWorld;
+    private static GameView gameView;
+    private static Player player;
 
-    private static int highScore = 0;
-
-    public static void setFields(Game g) {
-        game = g;
+    public static void setGame(Game game) {
+        EventHandler.game = game;
     }
 
-    public static void setFields(GameWorld w, GameView v) {
-        world = w;
-        view = v;
-        hero = world.getHero();
+    public static void setGameWorld(GameWorld gameWorld) {
+        EventHandler.gameWorld = gameWorld;
     }
 
-    public static void callEnd() {
-        game.timerStop();
-        world.timerStop();
+    public static void setGameView(GameView gameView) {
+        EventHandler.gameView = gameView;
+    }
+
+    public static void setPlayer(Player player) {
+        EventHandler.player = player;
+    }
+
+    public static void endGame() {
+        game.disableCountdown();
+        gameWorld.disableEnemyCreation();
         Enemy.destroyAllEnemies();
-
-        view.removeKeyListener(controller);
-        hero.destroy();
-
-        if (view.getScore() > highScore) {
-            highScore = view.getScore();
-        }
-        view.setHighScore(highScore);
-
-        view.setActiveGame(false);
-
-        EventController controlRestart = new EventController();
-        view.addKeyListener(controlRestart);
+        gameView.callGameOver(); // display Game Over + enable restart controls
     }
 
-    public static void updateTime() {
-        if (view.getTime() > 0) {
-            view.setTime(view.getTime() - 1);
-        } else if (view.getTime() <= 0 ) {
-            callEnd();
-        }
-    }
-
-    public static void updateScore() {
-        view.setScore(view.getScore() + 1);
-    }
-
-    public static void restart() {
-        GameAudio.stopSound();
-
-        Enemy.initialize();
-        world.stop();
-
-        Master.Master.callChapter();
+    public static void restartGame() {
+        game.enableCountdown();
+        gameWorld.enableEnemyCreation();
+        gameView.resetGraphics(); // display normal graphics
+        player.setPosition(new Vec2(10, 5)); // reset player position
     }
 }
