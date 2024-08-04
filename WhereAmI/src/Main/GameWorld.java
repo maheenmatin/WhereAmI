@@ -6,6 +6,7 @@ import Main.Environment.Ground;
 import Main.Environment.Spike;
 import Main.Environment.Stairs;
 import Main.Environment.Wall;
+import Master.GameView;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 import javax.swing.*;

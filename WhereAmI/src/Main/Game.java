@@ -1,6 +1,7 @@
 package Main;
 
 import Master.GameAudio;
+import Master.GameView;
 import Master.GiveFocus;
 import Master.Tracker;
 import javax.swing.*;
@@ -11,10 +12,11 @@ public class Game implements ActionListener {
     private final GameView gameView;
     private Timer timer;
 
-    public Game() {
+    public Game(GameView gameView) {
         // create game components
         GameWorld gameWorld = new GameWorld();
-        gameView = new GameView(gameWorld, 800, 600);
+        this.gameView = gameView;
+        gameView.setWorld(gameWorld);
         gameView.setZoom(10);
         gameWorld.setGameView(gameView);
         gameWorld.enableKeyboardControls();

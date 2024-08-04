@@ -2,6 +2,7 @@ package Prologue;
 
 import Master.GameAudio;
 import Master.Master;
+import Master.GameView;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,8 +35,8 @@ public class SceneHandler implements ActionListener {
         this.gameView = gameView;
         this.gameWorld = gameWorld;
 
-        timer = new Timer(4500, this);
-        timer.setInitialDelay(3900);
+        timer = new Timer(1000, this); //4500
+        timer.setInitialDelay(1000); //3900
         timer.start();
 
         callNextScene();

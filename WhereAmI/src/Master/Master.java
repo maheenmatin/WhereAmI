@@ -3,14 +3,16 @@ package Master;
 import javax.swing.*;
 
 public class Master {
-    private static final int chapter = 0; // 0 = prologue + main game, other = main game
     private static Prologue.Game prologueGame;
     private static Main.Game mainGame;
+    private static GameView gameView;
     private static JFrame jFrame;
 
-    public static void createFrame(boolean isPrologue) {
+    public static void callPrologue() {
+        prologueGame = new Prologue.Game();
+        gameView = prologueGame.getGameView();
         jFrame = new JFrame("Where Am I?");
-        jFrame.add(isPrologue ? prologueGame.getGameView() : mainGame.getGameView());
+        jFrame.add(gameView);
 
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setLocationByPlatform(true);
@@ -20,23 +22,12 @@ public class Master {
         jFrame.setVisible(true);
     }
 
-    public static void callChapter() {
-        if (chapter == 0) {
-            prologueGame = new Prologue.Game();
-            createFrame(true);
-        }
-        else {
-            mainGame = new Main.Game();
-            createFrame(false);
-        }
-    }
-
     public static void callMainGame() {
-        mainGame = new Main.Game();
-        createFrame(false);
+        gameView.setPrologue(false);
+        mainGame = new Main.Game(gameView);
     }
 
     public static void main(String[] args) {
-        callChapter();
+        callPrologue();
     }
 }

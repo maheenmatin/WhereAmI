@@ -2,6 +2,7 @@ package Main;
 
 import Main.Characters.Enemy;
 import Main.Characters.Player;
+import Master.GameView;
 import org.jbox2d.common.Vec2;
 
 public class EventHandler {

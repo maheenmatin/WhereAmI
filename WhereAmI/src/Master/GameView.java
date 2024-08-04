@@ -3,7 +3,6 @@ package Master;
 import Main.Controllers.RestartController;
 import city.cs.engine.UserView;
 import city.cs.engine.World;
-
 import javax.swing.*;
 import java.awt.*;
 

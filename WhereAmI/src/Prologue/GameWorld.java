@@ -1,5 +1,6 @@
 package Prologue;
 
+import Master.GameView;
 import Prologue.Characters.Enemy;
 import Prologue.Characters.Player;
 import Prologue.Environment.Checkpoint;
