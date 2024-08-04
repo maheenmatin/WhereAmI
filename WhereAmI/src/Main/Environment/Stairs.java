@@ -1,7 +1,8 @@
-package Main;
+package Main.Environment;
 
 import city.cs.engine.*;
 import city.cs.engine.Shape;
+import org.jbox2d.common.Vec2;
 
 public class Stairs extends StaticBody {
     private static final Shape leftShape =
@@ -16,13 +17,9 @@ public class Stairs extends StaticBody {
     private static final BodyImage rightImage = new BodyImage(
             "data/Objects/stairs-right.png", 10);
 
-    public Stairs(World world) {
-        super(world, leftShape);
-        addImage(leftImage);
-    }
-
-    public Stairs(World world, Boolean reverse) {
+    public Stairs(World world, float x, float y, Boolean reverse) {
         super(world, reverse ? rightShape : leftShape);
         addImage(reverse ? rightImage : leftImage);
+        this.setPosition(new Vec2(x, y));
     }
 }

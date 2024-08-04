@@ -1,5 +1,7 @@
 package Prologue;
 
+import Master.GameAudio;
+import Master.Master;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -43,50 +45,32 @@ public class SceneHandler implements ActionListener {
         return scene;
     }
 
-    //TODO: duplicate else if bodies
     public void callNextScene() {
-        scene++;
-        if (scene == 1) {
-            GameAudio.playSound();
-            gameView.setImage(initial);
-        }
-        else if (scene == 2) {
-            gameWorld.enableKeyboardControls(gameView);
-            timer.stop();
-            gameView.setImage(press);
-        }
-        else if (scene == 3) {
-            gameView.setImage(why);
-        }
-        else if (scene == 4) {
-            gameView.setImage(letMe);
-        }
-        else if (scene == 5) {
-            gameView.setImage(needToBe);
-        }
-        else if (scene == 6) {
-            gameView.setImage(blank);
-        }
-        else if (scene == 7) {
-            gameView.setImage(blank);
-        }
-        else if (scene == 8) {
-            gameView.setImage(youCan);
-        }
-        else if (scene == 9) {
-            GameAudio.stopSound();
-            gameWorld.destroyCharacters();
-            gameView.setImage(see);
-        }
-        else if (scene == 10) {
-            timer.stop();
-            gameView.setImage(blank);
-
-            Master.Master.setChapter(1);
-            Master.Master.callChapter();
-        }
-        else {
-            gameView.setImage(blank);
+        switch (++scene) {
+            case 1 -> {
+                GameAudio.playSound();
+                gameView.setPrologueImage(initial);
+            }
+            case 2 -> {
+                gameWorld.enableKeyboardControls(gameView);
+                timer.stop();
+                gameView.setPrologueImage(press);
+            }
+            case 3 -> gameView.setPrologueImage(why);
+            case 4 -> gameView.setPrologueImage(letMe);
+            case 5 -> gameView.setPrologueImage(needToBe);
+            case 6, 7 -> gameView.setPrologueImage(blank);
+            case 8 -> gameView.setPrologueImage(youCan);
+            case 9 -> {
+                GameAudio.stopSound();
+                gameWorld.destroyCharacters();
+                gameView.setPrologueImage(see);
+            }
+            case 10 -> {
+                timer.stop();
+                gameView.setPrologueImage(blank);
+                Master.callMainGame();
+            }
         }
     }
 

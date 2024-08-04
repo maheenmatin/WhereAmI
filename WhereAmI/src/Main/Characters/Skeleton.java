@@ -1,4 +1,4 @@
-package Main;
+package Main.Characters;
 
 import city.cs.engine.*;
 import city.cs.engine.Shape;

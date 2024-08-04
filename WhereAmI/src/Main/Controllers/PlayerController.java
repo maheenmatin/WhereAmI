@@ -1,5 +1,6 @@
-package Main;
+package Main.Controllers;
 
+import Main.Characters.Player;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -16,9 +17,6 @@ public class PlayerController implements KeyListener {
     public boolean isAttacking() {
         return attacking;
     }
-
-    @Override
-    public void keyTyped(KeyEvent keyEvent) {}
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
@@ -53,6 +51,7 @@ public class PlayerController implements KeyListener {
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         int code = keyEvent.getKeyCode();
+
         if (code == KeyEvent.VK_A) {
             walking = false;
             player.stopWalkLeft();
@@ -79,4 +78,7 @@ public class PlayerController implements KeyListener {
             }
         }
     }
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {}
 }

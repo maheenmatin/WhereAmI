@@ -1,4 +1,4 @@
-package Prologue;
+package Prologue.Characters;
 
 import city.cs.engine.*;
 

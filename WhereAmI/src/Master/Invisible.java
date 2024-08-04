@@ -1,4 +1,4 @@
-package Prologue;
+package Master;
 
 import city.cs.engine.Body;
 import java.awt.*;

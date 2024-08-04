@@ -1,4 +1,4 @@
-package Main;
+package Main.Environment;
 
 import city.cs.engine.*;
 import city.cs.engine.Shape;
@@ -12,15 +12,15 @@ public class Spike extends StaticBody {
     private static int posX;
     private static int posY;
 
-    public Spike(World w) {
-        super(w, shape);
+    public Spike(World world) {
+        super(world, shape);
         addImage(image);
         this.setPosition(new Vec2(posX, posY));
         posX += width;
     }
 
-    // reset coordinates before creating new game world
-    public static void initialize() {
+    // reinitialize coordinates before creating new game world
+    public static void reinitialize() {
         posX = 0;
         posY = -80;
     }

@@ -1,5 +1,11 @@
 package Main;
 
+import Main.Characters.*;
+import Main.Controllers.PlayerController;
+import Main.Environment.Ground;
+import Main.Environment.Spike;
+import Main.Environment.Stairs;
+import Main.Environment.Wall;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 import javax.swing.*;
@@ -8,96 +14,85 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class GameWorld extends World implements CollisionListener, ActionListener {
-    private final Player player;
-    private final Timer timer;
-    private final Random rand = new Random();
+    private Player player;
     private PlayerController playerController;
+    private GameView gameView;
+    private Timer timer;
+    private final Random rand = new Random();
 
     public GameWorld() {
-        // create invisible walls at start and end
-        Wall wallStart = new Wall(this);
-        Wall wallEnd = new Wall(this);
-        wallStart.setPosition(new Vec2(0, 25));
-        wallEnd.setPosition(new Vec2(500, 25));
-
-        // create spikes
-        Spike.initialize();
-        for (int i = 0; i < 6; i++) {
-            new Spike(this);
-        }
-
-        // create the ground
-        Ground ground1 = new Ground(this);
-        Ground ground2 = new Ground(this);
-        Ground ground3 = new Ground(this);
-        ground1.setPosition(new Vec2(10, -10));
-        ground2.setPosition(new Vec2(30, -10));
-        ground3.setPosition(new Vec2(70, -10));
-
-        Stairs stairsUp = new Stairs(this);
-        Ground stairsFlatFirst = new Ground(this);
-        Ground stairsFlatSecond = new Ground(this);
-        Stairs stairsDown = new Stairs(this, true);
-        stairsUp.setPosition(new Vec2(105, -6));
-        stairsFlatFirst.setPosition(new Vec2(120, -2));
-        stairsFlatSecond.setPosition(new Vec2(140, -2));
-        stairsDown.setPosition(new Vec2(155, -6));
-
-        Ground ground4 = new Ground(this);
-        Ground ground5 = new Ground(this);
-        Ground ground6 = new Ground(this);
-        ground4.setPosition(new Vec2(190, -10));
-        ground5.setPosition(new Vec2(235, -10));
-        ground6.setPosition(new Vec2(255, -10));
-
-        Stairs stairsUp2 = new Stairs(this);
-        Ground stairsFlat2 = new Ground(this);
-        Stairs stairsDown2 = new Stairs(this, true);
-        stairsUp2.setPosition(new Vec2(290, -6));
-        stairsFlat2.setPosition(new Vec2(305, -2));
-        stairsDown2.setPosition(new Vec2(320, -6));
-
-        Ground ground7 = new Ground(this);
-        Ground ground8 = new Ground(this);
-        ground7.setPosition(new Vec2(355, -10));
-        ground8.setPosition(new Vec2(390, -10));
-
-        Stairs stairsUp3 = new Stairs(this);
-        Ground stairsFlat3 = new Ground(this);
-        Stairs stairsDown3 = new Stairs(this, true);
-        stairsUp3.setPosition(new Vec2(425, -6));
-        stairsFlat3.setPosition(new Vec2(440, -2));
-        stairsDown3.setPosition(new Vec2(455, -6));
-
-        Ground ground9 = new Ground(this);
-        ground9.setPosition(new Vec2(490, -10));
-
-        // create the hero
-        player = new Player(this);
-        player.setPosition(new Vec2(10, 5));
-        player.setGravityScale(5);
-        player.addCollisionListener(this);
-
-        // create a demon
-        Demon demon = new Demon(this);
-        demon.setPosition(new Vec2(50, 40));
-
-        timer = new Timer(1000, this);
-        timer.setInitialDelay(1000);
-        timer.start();
+        createEnvironment();
+        createPlayer();
+        enableEnemyCreation();
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public void stopTimer() {
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
+    }
+
+    private void createEnvironment() {
+        // create invisible walls at start and end
+        new Wall(this, 0, 25);
+        new Wall(this, 500, 25);
+
+        // create spikes
+        Spike.reinitialize();
+        for (int i = 0; i < 6; i++) {
+            new Spike(this);
+        }
+
+        // create the ground
+        new Ground(this, 10, -10);
+        new Ground(this, 30, -10);
+        new Ground(this, 70 , -10);
+
+        new Stairs(this, 105, -6, false);
+        new Ground(this, 120, -2);
+        new Ground(this, 140, -2);
+        new Stairs(this, 155, -6, true);
+
+        new Ground(this, 190, -10);
+        new Ground(this, 235, -10);
+        new Ground(this, 255, -10);
+
+        new Stairs(this, 290, -6, false);
+        new Ground(this, 305, -2);
+        new Stairs(this, 320, -6, true);
+
+        new Ground(this, 355, -10);
+        new Ground(this, 390, -10);
+
+        new Stairs(this, 425, -6, false);
+        new Ground(this, 440, -2);
+        new Stairs(this, 455, -6, true);
+
+        new Ground(this, 490, -10);
+    }
+
+    private void createPlayer() {
+        player = new Player(this);
+        player.setPosition(new Vec2(10, 5));
+        player.setGravityScale(5);
+        player.addCollisionListener(this);
+    }
+
+    public void enableEnemyCreation() {
+        timer = new Timer(1000, this);
+        timer.setInitialDelay(0);
+        timer.start();
+    }
+
+    public void disableEnemyCreation() {
         timer.stop();
     }
 
-    public void collide(CollisionEvent e) {
+    public void collide(CollisionEvent collisionEvent) {
         Vec2 heroPosition = player.getPosition();
-        Body otherBody = e.getOtherBody();
+        Body otherBody = collisionEvent.getOtherBody();
         Vec2 otherPosition = otherBody.getPosition();
 
         if (otherBody instanceof Ground && heroPosition.y < otherPosition.y + 5) {
@@ -105,15 +100,15 @@ public class GameWorld extends World implements CollisionListener, ActionListene
         }
         else if (otherBody instanceof Enemy && playerController.isAttacking()) {
             otherBody.destroy();
-            EventHandler.updateScore();
+            gameView.updateScore();
         }
         else if (otherBody instanceof Spike || otherBody instanceof Enemy) {
-            EventHandler.callEnd();
+            EventHandler.endGame();
         }
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent actionEvent) {
         // create new enemy every 1 second
         int enemyType = rand.nextInt(3);
         Enemy enemy;
@@ -130,7 +125,7 @@ public class GameWorld extends World implements CollisionListener, ActionListene
         enemy.setPosition(new Vec2(rand.nextInt(500), rand.nextInt(50)));
     }
 
-    public void enableKeyboardControls(GameView gameView) {
+    public void enableKeyboardControls() {
         playerController = new PlayerController(player);
         gameView.addKeyListener(playerController);
     }

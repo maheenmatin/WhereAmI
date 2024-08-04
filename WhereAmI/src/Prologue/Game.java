@@ -1,5 +1,7 @@
 package Prologue;
 
+import Master.GiveFocus;
+
 public class Game {
     private final GameView gameView;
 

@@ -1,5 +1,7 @@
-package Main;
+package Master;
 
+import Main.Characters.Player;
+import Main.GameView;
 import city.cs.engine.StepEvent;
 import city.cs.engine.StepListener;
 import org.jbox2d.common.Vec2;
@@ -13,9 +15,9 @@ public class Tracker implements StepListener {
         this.gameView = gameView;
     }
 
-    public void preStep(StepEvent e) {}
-
-    public void postStep(StepEvent e) {
+    public void postStep(StepEvent stepEvent) {
         gameView.setCentre(new Vec2(player.getPosition()));
     }
+
+    public void preStep(StepEvent stepEvent) {}
 }

@@ -1,51 +1,58 @@
 package Prologue;
 
-import city.cs.engine.Shape;
+import Prologue.Characters.Enemy;
+import Prologue.Characters.Player;
+import Prologue.Environment.Checkpoint;
+import Prologue.Environment.Ground;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 
 public class GameWorld extends World implements CollisionListener {
     private SceneHandler sceneHandler;
     private PlayerController playerController;
-    private final Player player;
+    private Player player;
     private Enemy enemy;
 
     public GameWorld() {
-        // create environment
-        Shape shape1 = new BoxShape(18.8f, 0.1f);
-        StaticBody ground1 = new StaticBody(this, shape1);
-        ground1.setPosition(new Vec2(-21.2f,-19f));
-        ground1.setName("ground1");
+        createEnvironment();
+        createPlayer();
+    }
 
-        Shape shape2 = new BoxShape(10.4f, 0.1f);
-        StaticBody ground2 = new StaticBody(this, shape2);
+    public void setSceneHandler(SceneHandler sceneHandler) {
+        this.sceneHandler = sceneHandler;
+    }
+
+    private void createEnvironment() {
+        Ground ground1 = new Ground(this, 18.8f, true);
+        ground1.setPosition(new Vec2(-21.2f, -19f));
+
+        Ground ground2 = new Ground(this, 10.4f, true);
         ground2.setPosition(new Vec2(4.6f,-9));
         ground2.rotateDegrees(new Vec2(16,-9), 28);
-        ground2.setName("ground2");
 
-        Shape shape3 = new BoxShape(12.49f, 0.1f);
-        StaticBody ground3 = new StaticBody(this, shape3);
+        Ground ground3 = new Ground(this, 12.49f, true);
         ground3.setPosition(new Vec2(27.51f,-9.5f));
-        ground3.setName("ground3");
 
-        Checkpoint checkpoint = new Checkpoint(this);
+        Checkpoint checkpoint = new Checkpoint(this, true);
         checkpoint.setPosition(new Vec2(39.99f, 0));
-        checkpoint.setName("checkpoint");
+    }
 
-        Invisible.makeInvisible(ground1);
-        Invisible.makeInvisible(ground2);
-        Invisible.makeInvisible(ground3);
-        Invisible.makeInvisible(checkpoint);
-
-        // create player
+    private void createPlayer() {
         player = new Player(this);
         player.setPosition(new Vec2(-35,-15));
         player.setGravityScale(10);
         player.addCollisionListener(this);
     }
 
-    public void setSceneHandler(SceneHandler sceneHandler) {
-        this.sceneHandler = sceneHandler;
+    private void createEnemy() {
+        enemy = new Enemy(this);
+        enemy.setPosition(new Vec2(35,35));
+        enemy.setGravityScale(0.35f);
+    }
+
+    public void destroyCharacters() {
+        player.destroy();
+        enemy.destroy();
     }
 
     public void collide(CollisionEvent e) {
@@ -62,20 +69,12 @@ public class GameWorld extends World implements CollisionListener {
             sceneHandler.callNextScene();
             sceneHandler.startTimer();
 
-            // create enemy
-            enemy = new Enemy(this);
-            enemy.setPosition(new Vec2(35,35));
-            enemy.setGravityScale(0.35f);
+            createEnemy();
         }
     }
 
     public void enableKeyboardControls(GameView gameView) {
         playerController = new PlayerController(player);
         gameView.addKeyListener(playerController);
-    }
-
-    public void destroyCharacters() {
-        player.destroy();
-        enemy.destroy();
     }
 }
