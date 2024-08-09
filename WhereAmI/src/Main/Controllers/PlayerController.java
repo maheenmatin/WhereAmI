@@ -23,19 +23,19 @@ public class PlayerController implements KeyListener {
         int key = ke.getKeyCode();
 
         if (key == KeyEvent.VK_W) {
-            player.jump(25);
+            player.jump(40);
         }
         else if (key == KeyEvent.VK_A) {
             left = true;
             walking = true;
             player.startWalkLeft();
-            player.startWalking(-25);
+            player.startWalking(-30);
         }
         else if (key == KeyEvent.VK_D) {
             left = false;
             walking = true;
             player.startWalkRight();
-            player.startWalking(25);
+            player.startWalking(30);
         }
         else if (key == KeyEvent.VK_S) {
             attacking = true;

@@ -27,9 +27,9 @@ public abstract class Enemy extends Walker implements
         new EnemyCollHandler(this);
         world.addStepListener(this);
 
-        // destroy after 10 seconds
-        timer = new Timer(10000, this);
-        timer.setInitialDelay(10000);
+        // destroy after 20 seconds
+        timer = new Timer(20000, this);
+        timer.setInitialDelay(20000);
         timer.start();
 
         // assign random direction
