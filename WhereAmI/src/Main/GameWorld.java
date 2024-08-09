@@ -34,14 +34,13 @@ public class GameWorld extends World implements CollisionListener, ActionListene
 
     private void createPlayer() {
         player = new Player(this);
-        player.setPosition(new Vec2(0, 5));
-        player.setGravityScale(10);
         player.addCollisionListener(this);
     }
 
     public void enableKeyboardControls() {
         playerController = new PlayerController(player);
         gameView.addKeyListener(playerController);
+        EventHandler.setPlayerController(playerController);
     }
 
     public void enableEnemyCreation() {
@@ -61,11 +60,18 @@ public class GameWorld extends World implements CollisionListener, ActionListene
         if (otherBody instanceof Ground && playerPosition.y < otherPosition.y + 5) {
             player.setPosition(new Vec2(playerPosition.x, playerPosition.y + 5));
         }
-        else if (otherBody instanceof Enemy && playerController.isAttacking()) {
-            otherBody.destroy();
-            gameView.updateScore();
+        else if (otherBody instanceof Enemy) {
+            if (!((Enemy) otherBody).isDead()) { // if enemy is not dead
+                if (playerController.isAttacking()) {
+                    ((Enemy) otherBody).animateDeath();
+                    gameView.updateScore();
+                }
+                else {
+                    EventHandler.endGame();
+                }
+            }
         }
-        else if (otherBody instanceof Spike || otherBody instanceof Enemy) {
+        else if (otherBody instanceof Spike) {
             EventHandler.endGame();
         }
     }

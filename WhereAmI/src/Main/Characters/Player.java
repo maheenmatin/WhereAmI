@@ -1,9 +1,10 @@
 package Main.Characters;
 
 import city.cs.engine.*;
+import org.jbox2d.common.Vec2;
 
 public class Player extends Walker {
-    private SolidFixture fixture;
+    private Fixture fixture;
 
     private static final Shape leftIdleShape = new PolygonShape
             (-1.8f, 2.56f, -2.68f, 1.54f, -3.08f, -2.39f, -1.8f, -4.93f,
@@ -33,14 +34,34 @@ public class Player extends Walker {
     private static final BodyImage rightRunImage =
             new BodyImage("data/Characters/hero/run-right.gif", 10f);
     private static final BodyImage leftAttackImage =
-            new BodyImage("data/Characters/hero/attack-left.png", 10f);
+            new BodyImage("data/Characters/hero/attack-left.gif", 10f);
     private static final BodyImage rightAttackImage =
-            new BodyImage("data/Characters/hero/attack-right.png", 10f);
+            new BodyImage("data/Characters/hero/attack-right.gif", 10f);
+    private static final BodyImage deathImage =
+            new BodyImage("data/Characters/hero/hero-hurt.png", 10f);
 
     public Player(World world) {
         super(world);
+        initialize();
+        setGravityScale(10);
+    }
+
+    public void initialize() {
+        if (fixture != null) {
+            fixture.destroy();
+        }
         fixture = new SolidFixture(this, rightIdleShape);
+        removeAllImages();
         addImage(rightIdleImage);
+        setPosition(new Vec2(0, 5));
+    }
+
+    public void simulateDeath() {
+        startWalking(0);
+        fixture.destroy();
+        fixture = new SolidFixture(this, rightIdleShape);
+        removeAllImages();
+        addImage(deathImage);
     }
 
     public void startWalkLeft() {
