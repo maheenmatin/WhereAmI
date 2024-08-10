@@ -3,15 +3,19 @@ package Prologue;
 import Master.GameView;
 import Prologue.Characters.Enemy;
 import Prologue.Characters.Player;
+import Prologue.Characters.Swordsman;
+import Prologue.Controllers.PlayerController;
 import Prologue.Environment.Checkpoint;
 import Prologue.Environment.Ground;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 
 public class GameWorld extends World implements CollisionListener {
+    private GameView gameView;
     private SceneHandler sceneHandler;
     private PlayerController playerController;
     private Player player;
+    private Swordsman swordsman;
     private Enemy enemy;
 
     public GameWorld() {
@@ -19,22 +23,26 @@ public class GameWorld extends World implements CollisionListener {
         createPlayer();
     }
 
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
+    }
+
     public void setSceneHandler(SceneHandler sceneHandler) {
         this.sceneHandler = sceneHandler;
     }
 
     private void createEnvironment() {
-        Ground ground1 = new Ground(this, 18.8f, true);
+        Ground ground1 = new Ground(this, 18.8f);
         ground1.setPosition(new Vec2(-21.2f, -19f));
 
-        Ground ground2 = new Ground(this, 10.4f, true);
+        Ground ground2 = new Ground(this, 10.4f);
         ground2.setPosition(new Vec2(4.6f,-9));
         ground2.rotateDegrees(new Vec2(16,-9), 28);
 
-        Ground ground3 = new Ground(this, 12.49f, true);
+        Ground ground3 = new Ground(this, 12.49f);
         ground3.setPosition(new Vec2(27.51f,-9.5f));
 
-        Checkpoint checkpoint = new Checkpoint(this, true);
+        Checkpoint checkpoint = new Checkpoint(this);
         checkpoint.setPosition(new Vec2(39.99f, 0));
     }
 
@@ -45,6 +53,13 @@ public class GameWorld extends World implements CollisionListener {
         player.addCollisionListener(this);
     }
 
+    public void createSwordsman() {
+        player.destroy();
+        gameView.removeKeyListener(playerController);
+        swordsman = new Swordsman(this);
+        swordsman.setPosition(new Vec2(-30,-15));
+    }
+
     private void createEnemy() {
         enemy = new Enemy(this);
         enemy.setPosition(new Vec2(35,35));
@@ -52,7 +67,7 @@ public class GameWorld extends World implements CollisionListener {
     }
 
     public void destroyCharacters() {
-        player.destroy();
+        swordsman.destroy();
         enemy.destroy();
     }
 
@@ -74,7 +89,7 @@ public class GameWorld extends World implements CollisionListener {
         }
     }
 
-    public void enableKeyboardControls(GameView gameView) {
+    public void enablePlayerControls() {
         playerController = new PlayerController(player);
         gameView.addKeyListener(playerController);
     }

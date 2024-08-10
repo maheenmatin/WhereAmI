@@ -17,15 +17,19 @@ public class EventHandler {
     public static void setGame(Game game) {
         EventHandler.game = game;
     }
+
     public static void setGameWorld(GameWorld gameWorld) {
         EventHandler.gameWorld = gameWorld;
     }
+
     public static void setGameView(GameView gameView) {
         EventHandler.gameView = gameView;
     }
+
     public static void setPlayer(Player player) {
         EventHandler.player = player;
     }
+
     public static void setPlayerController(PlayerController playerController) {
         EventHandler.playerController = playerController;
     }

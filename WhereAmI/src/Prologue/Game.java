@@ -11,6 +11,7 @@ public class Game {
         GameWorld gameWorld = new GameWorld();
         gameView = new GameView(gameWorld, 800, 600);
         gameView.setZoom(10);
+        gameWorld.setGameView(gameView);
         gameWorld.setSceneHandler(new SceneHandler(gameView, gameWorld));
 
         // enable key press detection when mouse is in view

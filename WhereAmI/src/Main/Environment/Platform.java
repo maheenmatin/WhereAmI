@@ -2,18 +2,17 @@ package Main.Environment;
 
 import city.cs.engine.World;
 
-public class Container {
+public class Platform {
     private final World world;
     int endX = -10;
 
-    public Container(World world, int count) {
+    public Platform(World world, int count) {
         this.world = world;
         new Wall(world, endX - 10, 25);
 
         for (int i = count * 6; i > 0; i--) {
             new Spike(world);
         }
-
         for (; count > 0; count--) {
             endX = createGround(endX) + 35;
         }

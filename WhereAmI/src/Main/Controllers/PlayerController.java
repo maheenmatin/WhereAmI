@@ -30,21 +30,25 @@ public class PlayerController implements KeyListener {
 
             if (key == KeyEvent.VK_W) {
                 player.jump(40);
-            } else if (key == KeyEvent.VK_A) {
+            }
+            else if (key == KeyEvent.VK_A) {
                 left = true;
                 walking = true;
                 player.startWalkLeft();
                 player.startWalking(-30);
-            } else if (key == KeyEvent.VK_D) {
+            }
+            else if (key == KeyEvent.VK_D) {
                 left = false;
                 walking = true;
                 player.startWalkRight();
                 player.startWalking(30);
-            } else if (key == KeyEvent.VK_S) {
+            }
+            else if (key == KeyEvent.VK_S) {
                 attacking = true;
                 if (left) {
                     player.attackLeft();
-                } else {
+                }
+                else {
                     player.attackRight();
                 }
             }
@@ -60,19 +64,24 @@ public class PlayerController implements KeyListener {
                 walking = false;
                 player.stopWalkLeft();
                 player.startWalking(0);
-            } else if (key == KeyEvent.VK_D) {
+            }
+            else if (key == KeyEvent.VK_D) {
                 walking = false;
                 player.stopWalkRight();
                 player.startWalking(0);
-            } else if (key == KeyEvent.VK_S) {
+            }
+            else if (key == KeyEvent.VK_S) {
                 attacking = false;
                 if (left && walking) {
                     player.startWalkLeft();
-                } else if (!left && walking) {
+                }
+                else if (!left && walking) {
                     player.startWalkRight();
-                } else if (left) {
+                }
+                else if (left) {
                     player.stopWalkLeft();
-                } else {
+                }
+                else {
                     player.stopWalkRight();
                 }
             }

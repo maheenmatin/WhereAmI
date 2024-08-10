@@ -1,7 +1,6 @@
 package Main.Characters;
 
 import city.cs.engine.*;
-import org.jbox2d.common.Vec2;
 
 public class Demon extends Enemy {
     public Demon(World world) {
@@ -18,12 +17,6 @@ public class Demon extends Enemy {
                 "data/Characters/Enemies/demon-left.gif", 10f);
         rightImage = new BodyImage(
                 "data/Characters/Enemies/demon-right.gif", 10f);
-    }
-
-    @Override
-    public void preStep(StepEvent se) {
-        if (getPosition().y < -5) {
-            setPosition(new Vec2(getPosition().x, -5));
-        }
+        yLimit = -5;
     }
 }

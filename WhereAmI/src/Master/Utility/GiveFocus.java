@@ -18,10 +18,13 @@ public class GiveFocus implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {}
+
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {}
+
     @Override
     public void mousePressed(MouseEvent mouseEvent) {}
+
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {}
 }

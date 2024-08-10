@@ -3,40 +3,26 @@ package Prologue;
 import Master.GameAudio;
 import Master.Master;
 import Master.GameView;
+import Prologue.Controllers.SceneController;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SceneHandler implements ActionListener {
-    private static final Image initial = new ImageIcon(
-            "data/Backgrounds/blankWhere.jpg").getImage();
-    private static final Image press = new ImageIcon(
-            "data/Backgrounds/moonPress.png").getImage();
-    private static final Image why = new ImageIcon(
-            "data/Backgrounds/why.png").getImage();
-    private static final Image letMe = new ImageIcon(
-            "data/Backgrounds/letMe.png").getImage();
-    private static final Image needToBe = new ImageIcon(
-            "data/Backgrounds/needToBe.png").getImage();
-    private static final Image blank = new ImageIcon(
-            "data/Backgrounds/blank.jpg").getImage();
-    private static final Image youCan = new ImageIcon(
-            "data/Backgrounds/blankYouCan.jpg").getImage();
-    private static final Image see = new ImageIcon(
-            "data/Backgrounds/blankSee.jpg").getImage();
-
     private final GameView gameView;
     private final GameWorld gameWorld;
+    private final SceneContainer sceneContainer;
+    private SceneController sceneController;
     private final Timer timer;
     private int scene = 0;
 
     public SceneHandler(GameView gameView, GameWorld gameWorld) {
         this.gameView = gameView;
         this.gameWorld = gameWorld;
-        timer = new Timer(4500, this); //4500
-        timer.setInitialDelay(3900); //3900
+        sceneContainer = new SceneContainer();
 
+        timer = new Timer(4500, this);
+        timer.setInitialDelay(3900);
         timer.start();
         callNextScene();
     }
@@ -46,28 +32,32 @@ public class SceneHandler implements ActionListener {
     }
 
     public void callNextScene() {
-        switch (++scene) {
-            case 1 -> gameView.setPrologueImage(initial);
-            case 2 -> {
-                gameWorld.enableKeyboardControls(gameView);
-                timer.stop();
-                gameView.setPrologueImage(press);
-            }
-            case 3 -> gameView.setPrologueImage(why);
-            case 4 -> gameView.setPrologueImage(letMe);
-            case 5 -> gameView.setPrologueImage(needToBe);
-            case 6, 7 -> gameView.setPrologueImage(blank);
-            case 8 -> gameView.setPrologueImage(youCan);
-            case 9 -> {
-                GameAudio.stopSound();
-                gameWorld.destroyCharacters();
-                gameView.setPrologueImage(see);
-            }
-            case 10 -> {
-                timer.stop();
-                gameView.setPrologueImage(blank);
-                Master.callMainGame();
-            }
+        gameView.setPrologueImage(sceneContainer.getSceneImage(++scene));
+
+        if (scene == 2) {
+            timer.stop();
+            gameWorld.enablePlayerControls();
+        }
+        else if (scene == 9) {
+            timer.setDelay(2500);
+            GameAudio.stopSound();
+            gameWorld.createSwordsman();
+        }
+        else if (scene == 11) {
+            timer.setDelay(4500);
+        }
+        else if (scene == 13) {
+            gameWorld.destroyCharacters();
+        }
+        else if (scene == 14) {
+            timer.stop();
+            sceneController = new SceneController(this);
+            gameView.addKeyListener(sceneController);
+        }
+        else if (scene == 24) {
+            gameView.removeKeyListener(sceneController);
+            gameWorld.stop();
+            Master.callMainGame();
         }
     }
 

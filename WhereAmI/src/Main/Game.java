@@ -35,6 +35,7 @@ public class Game implements ActionListener {
         timer.setInitialDelay(1500);
         timer.start();
     }
+
     public void disableCountdown() {
         timer.stop();
     }
