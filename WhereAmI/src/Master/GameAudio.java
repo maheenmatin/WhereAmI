@@ -9,7 +9,7 @@ public class GameAudio {
     public static void playSound() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
-                    new File("data/Audio/music1.wav").getAbsoluteFile());
+                    new File("data/Audio/music.wav").getAbsoluteFile());
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();

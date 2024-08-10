@@ -9,10 +9,9 @@ import java.awt.*;
 public class GameView extends UserView {
     private Image prologueImage;
     private static final Image mainImage = new ImageIcon(
-            "data/Backgrounds/mainlevel.png").getImage();
+            "data/Backgrounds/Main/mainLevel.png").getImage();
     private static final Image endImage = new ImageIcon(
-            "data/Backgrounds/blank.jpg").getImage();
-
+            "data/Backgrounds/Main/blank.jpg").getImage();
     private static final Font font = new Font("Monospaced", Font.PLAIN, 20);
     private static final Font fontEnd = new Font("Monospaced", Font.PLAIN, 40);
 
@@ -29,15 +28,18 @@ public class GameView extends UserView {
         this.addKeyListener(restartController);
     }
 
-    public void setPrologueImage(Image prologueImage) {
-        this.prologueImage = prologueImage;
-    }
     public int getTime() {
         return time;
     }
+
     public void setTime(int time) {
         this.time = time;
     }
+
+    public void setPrologueImage(Image prologueImage) {
+        this.prologueImage = prologueImage;
+    }
+
     public void setPrologue(boolean prologue) {
         this.prologue = prologue;
     }
@@ -76,14 +78,13 @@ public class GameView extends UserView {
 
     @Override
     protected void paintForeground(Graphics2D g) {
-        if (prologue) {}
-        else if (activeMain) {
+        if (!prologue && activeMain) {
             g.setColor(new Color(200, 150, 150));
             g.setFont(font);
             g.drawString("TIME  " + time, 10, 25);
             g.drawString("SCORE " + score, 10, 50);
         }
-        else {
+        else if (!prologue) {
             g.setColor(new Color(255, 255, 255));
             g.setFont(fontEnd);
             g.drawString("GAME OVER", 285, 150);

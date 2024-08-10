@@ -5,7 +5,6 @@ import org.jbox2d.common.Vec2;
 
 public class Player extends Walker {
     private Fixture fixture;
-
     private static final Shape leftIdleShape = new PolygonShape
             (-1.8f, 2.56f, -2.68f, 1.54f, -3.08f, -2.39f, -1.8f, -4.93f,
                     2.24f, -5.0f, 6.27f, -4.86f, 0.75f, 2.22f);
@@ -26,19 +25,19 @@ public class Player extends Walker {
                     -0.95f, 0.76f, -4.14f, -3.88f);
 
     private static final BodyImage leftIdleImage =
-            new BodyImage("data/Characters/hero/idle-left.gif", 10f);
+            new BodyImage("data/Characters/Swordsman/idle-left.gif", 10f);
     private static final BodyImage rightIdleImage =
-            new BodyImage("data/Characters/hero/idle-right.gif", 10f);
+            new BodyImage("data/Characters/Swordsman/idle-right.gif", 10f);
     private static final BodyImage leftRunImage =
-            new BodyImage("data/Characters/hero/run-left.gif", 10f);
+            new BodyImage("data/Characters/Swordsman/run-left.gif", 10f);
     private static final BodyImage rightRunImage =
-            new BodyImage("data/Characters/hero/run-right.gif", 10f);
+            new BodyImage("data/Characters/Swordsman/run-right.gif", 10f);
     private static final BodyImage leftAttackImage =
-            new BodyImage("data/Characters/hero/attack-left.gif", 10f);
+            new BodyImage("data/Characters/Swordsman/attack-left.gif", 10f);
     private static final BodyImage rightAttackImage =
-            new BodyImage("data/Characters/hero/attack-right.gif", 10f);
+            new BodyImage("data/Characters/Swordsman/attack-right.gif", 10f);
     private static final BodyImage deathImage =
-            new BodyImage("data/Characters/hero/hero-hurt.png", 10f);
+            new BodyImage("data/Characters/Swordsman/hero-hurt.png", 10f);
 
     public Player(World world) {
         super(world);
@@ -57,7 +56,7 @@ public class Player extends Walker {
     }
 
     public void simulateDeath() {
-        startWalking(0);
+        stopWalking();
         fixture.destroy();
         fixture = new SolidFixture(this, rightIdleShape);
         removeAllImages();
@@ -70,30 +69,35 @@ public class Player extends Walker {
         removeAllImages();
         addImage(leftRunImage);
     }
+
     public void startWalkRight() {
         fixture.destroy();
         fixture = new SolidFixture(this, rightWalkShape);
         removeAllImages();
         addImage(rightRunImage);
     }
+
     public void stopWalkLeft() {
         fixture.destroy();
         fixture = new SolidFixture(this, leftIdleShape);
         removeAllImages();
         addImage(leftIdleImage);
     }
+
     public void stopWalkRight() {
         fixture.destroy();
         fixture = new SolidFixture(this, rightIdleShape);
         removeAllImages();
         addImage(rightIdleImage);
     }
+
     public void attackLeft() {
         fixture.destroy();
         fixture = new SolidFixture(this, leftAttackShape);
         removeAllImages();
         addImage(leftAttackImage);
     }
+
     public void attackRight() {
         fixture.destroy();
         fixture = new SolidFixture(this, rightAttackShape);

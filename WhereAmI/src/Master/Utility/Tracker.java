@@ -16,9 +16,10 @@ public class Tracker implements StepListener {
     }
 
     @Override
+    public void preStep(StepEvent se) {}
+
+    @Override
     public void postStep(StepEvent se) {
         gameView.setCentre(new Vec2(player.getPosition()));
     }
-    @Override
-    public void preStep(StepEvent se) {}
 }

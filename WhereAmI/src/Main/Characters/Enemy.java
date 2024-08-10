@@ -2,6 +2,7 @@ package Main.Characters;
 
 import Main.Handlers.EnemyCollHandler;
 import city.cs.engine.*;
+import org.jbox2d.common.Vec2;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,10 +11,11 @@ import javax.swing.*;
 
 public abstract class Enemy extends Walker implements
         ActionListener, StepListener {
-    private static final Random rand = new Random();
+    private static final Random random = new Random();
     private static final ArrayList<Enemy> enemyList = new ArrayList<>();
     private final Timer timer;
 
+    protected int yLimit;
     protected Boolean left;
     protected Boolean dead = false;
     protected Fixture fixture;
@@ -34,7 +36,7 @@ public abstract class Enemy extends Walker implements
         timer.start();
 
         // assign random direction
-        if (rand.nextBoolean()) {
+        if (random.nextBoolean()) {
             walkLeft();
         }
         else {
@@ -99,12 +101,20 @@ public abstract class Enemy extends Walker implements
         fixture.destroy();
         fixture = new GhostlyFixture(this, leftShape);
         removeAllImages();
-        addImage(new BodyImage("data/Characters/enemy-death.gif", 10));
+        addImage(new BodyImage("data/Characters/Enemies/death.gif", 10));
         startWalking(0);
 
         Timer timer = new Timer(500, ae -> destroy()); // destroy after 0.5 seconds
         timer.setRepeats(false);
         timer.start();
+    }
+
+    @Override
+    public void preStep(StepEvent se) {
+        // do not allow enemy to fall to spikes
+        if (getPosition().y < yLimit) {
+            setPosition(new Vec2(getPosition().x, yLimit));
+        }
     }
 
     @Override

@@ -20,6 +20,7 @@ public class RestartController implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent ke) {}
+
     @Override
     public void keyTyped(KeyEvent ke) {}
 }

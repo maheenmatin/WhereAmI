@@ -1,4 +1,4 @@
-package Prologue;
+package Prologue.Controllers;
 
 import Prologue.Characters.Player;
 import java.awt.event.KeyEvent;
@@ -15,33 +15,34 @@ public class PlayerController implements KeyListener {
     public int getSpeed() {
         return speed;
     }
+
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
     @Override
     public void keyPressed(KeyEvent ke) {
-        int key = ke.getKeyCode();
-
-        if (key == KeyEvent.VK_D && speed == 0) {
-            player.startWalk();
-            player.startWalking(0);
-        }
-        else if (key == KeyEvent.VK_D && speed == 1) {
-            player.startWalk();
-            player.startWalking(20); //20
-        }
-        else if (key == KeyEvent.VK_D && speed == 2) {
-            player.startWalk();
-            player.startWalking(30); //30
-        }
-        else if (key == KeyEvent.VK_D && speed == 3) {
-            player.startWalk();
-            player.startWalking(40); //40
-        }
-        else if (key == KeyEvent.VK_D && speed == 4) {
-            player.startWalk();
-            player.startWalking(30); //30
+        if (ke.getKeyCode() == KeyEvent.VK_D) {
+            if (speed == 0) {
+                player.startWalk();
+                player.startWalking(0);
+            }
+            else if (speed == 1) {
+                player.startWalk();
+                player.startWalking(20);
+            }
+            else if (speed == 2) {
+                player.startWalk();
+                player.startWalking(30);
+            }
+            else if (speed == 3) {
+                player.startWalk();
+                player.startWalking(40);
+            }
+            else if (speed == 4) {
+                player.startWalk();
+                player.startWalking(30);
+            }
         }
     }
 
@@ -52,6 +53,7 @@ public class PlayerController implements KeyListener {
             player.startWalking(0);
         }
     }
+
     @Override
     public void keyTyped(KeyEvent ke) {}
 }

@@ -22,7 +22,7 @@ public class GameWorld extends World implements CollisionListener, ActionListene
 
     public GameWorld(GameView gameView) {
         this.gameView = gameView;
-        this.endX = new Container(this, 2).getEndX() - 50; // create environment
+        this.endX = new Platform(this, 2).getEndX() - 50; // create environment
         createPlayer();
         enableKeyboardControls();
         enableEnemyCreation();
@@ -48,6 +48,7 @@ public class GameWorld extends World implements CollisionListener, ActionListene
         timer.setInitialDelay(0);
         timer.start();
     }
+
     public void disableEnemyCreation() {
         timer.stop();
     }
