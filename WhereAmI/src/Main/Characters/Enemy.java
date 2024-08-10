@@ -15,7 +15,8 @@ public abstract class Enemy extends Walker implements
     private final Timer timer;
 
     protected Boolean left;
-    protected SolidFixture fixture;
+    protected Boolean dead = false;
+    protected Fixture fixture;
     protected Shape leftShape;
     protected Shape rightShape;
     protected BodyImage leftImage;
@@ -27,9 +28,9 @@ public abstract class Enemy extends Walker implements
         new EnemyCollHandler(this);
         world.addStepListener(this);
 
-        // destroy after 10 seconds
-        timer = new Timer(10000, this);
-        timer.setInitialDelay(10000);
+        // destroy after 20 seconds
+        timer = new Timer(20000, this);
+        timer.setInitialDelay(20000);
         timer.start();
 
         // assign random direction
@@ -40,6 +41,10 @@ public abstract class Enemy extends Walker implements
             walkRight();
         }
         enemyList.add(this);
+    }
+
+    public Boolean isDead() {
+        return dead;
     }
 
     public static void destroyAllEnemies() {
@@ -85,9 +90,23 @@ public abstract class Enemy extends Walker implements
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        destroy();
         timer.stop();
+        destroy(); // do not animate if death by time-out
     }
+
+    public void animateDeath() {
+        dead = true;
+        fixture.destroy();
+        fixture = new GhostlyFixture(this, leftShape);
+        removeAllImages();
+        addImage(new BodyImage("data/Characters/enemy-death.gif", 10));
+        startWalking(0);
+
+        Timer timer = new Timer(500, ae -> destroy()); // destroy after 0.5 seconds
+        timer.setRepeats(false);
+        timer.start();
+    }
+
     @Override
     public void postStep(StepEvent se) {}
 }

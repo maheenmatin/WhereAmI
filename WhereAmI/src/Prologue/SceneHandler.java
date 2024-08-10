@@ -34,8 +34,8 @@ public class SceneHandler implements ActionListener {
     public SceneHandler(GameView gameView, GameWorld gameWorld) {
         this.gameView = gameView;
         this.gameWorld = gameWorld;
-        timer = new Timer(4500, this);
-        timer.setInitialDelay(3900);
+        timer = new Timer(4500, this); //4500
+        timer.setInitialDelay(3900); //3900
 
         timer.start();
         callNextScene();

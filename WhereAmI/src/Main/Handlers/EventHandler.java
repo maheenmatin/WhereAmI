@@ -2,16 +2,17 @@ package Main.Handlers;
 
 import Main.Characters.Enemy;
 import Main.Characters.Player;
+import Main.Controllers.PlayerController;
 import Main.Game;
 import Main.GameWorld;
 import Master.GameView;
-import org.jbox2d.common.Vec2;
 
 public class EventHandler {
     private static Game game;
     private static GameWorld gameWorld;
     private static GameView gameView;
     private static Player player;
+    private static PlayerController playerController;
 
     public static void setGame(Game game) {
         EventHandler.game = game;
@@ -25,18 +26,33 @@ public class EventHandler {
     public static void setPlayer(Player player) {
         EventHandler.player = player;
     }
+    public static void setPlayerController(PlayerController playerController) {
+        EventHandler.playerController = playerController;
+    }
 
     public static void endGame() {
         game.disableCountdown();
         gameWorld.disableEnemyCreation();
-        Enemy.destroyAllEnemies();
-        gameView.callGameOver(); // display Game Over + enable restart controls
+
+        // stop player movement
+        playerController.setActive(false);
+        player.simulateDeath();
+
+        // display Game Over + enable restart controls
+        gameView.callGameOver();
     }
 
     public static void restartGame() {
+        Enemy.destroyAllEnemies();
         game.enableCountdown();
         gameWorld.enableEnemyCreation();
-        gameView.resetGraphics(); // display normal graphics
-        player.setPosition(new Vec2(10, 5)); // reset player position
+
+        // display normal graphics
+        playerController.setActive(true);
+        player.initialize();
+        player.setGravityScale(10);
+
+        // start player movement
+        gameView.resetGraphics();
     }
 }

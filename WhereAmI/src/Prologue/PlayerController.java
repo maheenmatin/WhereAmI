@@ -29,19 +29,19 @@ public class PlayerController implements KeyListener {
         }
         else if (key == KeyEvent.VK_D && speed == 1) {
             player.startWalk();
-            player.startWalking(20);
+            player.startWalking(20); //20
         }
         else if (key == KeyEvent.VK_D && speed == 2) {
             player.startWalk();
-            player.startWalking(30);
+            player.startWalking(30); //30
         }
         else if (key == KeyEvent.VK_D && speed == 3) {
             player.startWalk();
-            player.startWalking(40);
+            player.startWalking(40); //40
         }
         else if (key == KeyEvent.VK_D && speed == 4) {
             player.startWalk();
-            player.startWalking(30);
+            player.startWalking(30); //30
         }
     }
 
