@@ -91,7 +91,7 @@ public class GameView extends UserView {
             g.setFont(font);
             g.drawString("FINAL SCORE " + score, 315, 200);
             g.drawString("HIGH  SCORE " + highScore, 315, 225);
-            g.drawString("PRESS R TO RESTART", 290, 350);
+            g.drawString("PRESS R TO RESTART", 290, 275);
         }
     }
 }
