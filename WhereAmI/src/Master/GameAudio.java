@@ -12,6 +12,7 @@ public class GameAudio {
                     new File("data/Audio/music.wav").getAbsoluteFile());
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();
         }
         catch(Exception ex) {
