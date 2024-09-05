@@ -13,16 +13,18 @@
 
 
 ## Installation
-- Download only the file entitled "WhereAmI.jar" and the folder entitled "data". Create a new folder and store these as siblings in that folder.
+**Requirements:**
+- Java 17 or above
 
-- Open a terminal at the newly created folder. To start the game, type the following:
+#### Option 1
+- Download the repository. Navigate to WhereAmI/WhereAmI and open a terminal. To start the game, type the following:
 
 ```
 	java -jar WhereAmI.jar
 ```
 
-**Requirements:**
-- Java 17 or above
+#### Option 2
+- Download the repository. Open WhereAmI/WhereAmI in an IDE and add lib/CityEngine.jar as a library (add to classpath). To start the game, run Master.Master
 
 
 ## Usage
