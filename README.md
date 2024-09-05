@@ -1,4 +1,4 @@
-## WhereAmI - Story-Driven 2D Platformer
+# WhereAmI - Story-Driven 2D Platformer
 
 - Java
 - Swing
