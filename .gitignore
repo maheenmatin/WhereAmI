@@ -5,3 +5,12 @@
 .idea/
 out/
 *.iml
+
+# MAVEN GENERATED FILES #
+target/
+*.jar
+*.war
+*.ear
+*.class
+*.log
+*.properties
