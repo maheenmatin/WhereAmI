@@ -3,6 +3,9 @@
 - Java
 - Swing
 - JBox2D
+- JUnit
+- Mockito
+- Maven
 
 ![](Screenshots/1.png)
 

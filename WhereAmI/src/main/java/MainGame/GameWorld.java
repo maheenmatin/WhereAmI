@@ -28,6 +28,10 @@ public class GameWorld extends World implements CollisionListener, ActionListene
         enableEnemyCreation();
     }
 
+    public Timer getTimer() {
+        return timer;
+    }
+
     public Player getPlayer() {
         return player;
     }

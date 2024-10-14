@@ -12,13 +12,13 @@ import static org.mockito.Mockito.times;
 class MasterTest {
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         // Any setup code before each test can go here
         Master.callPrologue(); // Call the method to initialize game view
     }
 
     @AfterEach
-    void tearDown() {
+    public void tearDown() {
         // Any cleanup code after each test can go here
         // For example, dispose of the JFrame if needed
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(Master.getGameView());
@@ -28,14 +28,14 @@ class MasterTest {
     }
 
     @Test
-    void testGameViewIsNotNull() {
+    public void testGameViewIsNotNull() {
         // Test that the game view is initialized and not null
         GameView gameView = Master.getGameView();
         assertNotNull(gameView, "GameView should not be null after calling callPrologue()");
     }
 
     @Test
-    void testGameAudioIsPlaying() {
+    public void testGameAudioIsPlaying() {
         // use Mockito to create a mock of GameAudio
         try (MockedStatic<GameAudio> mockedAudio = Mockito.mockStatic(GameAudio.class)) {
             Master.callMainGame();
