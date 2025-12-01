@@ -115,9 +115,9 @@ java -jar WhereAmI.jar
 This project was initially built in an academic environment supported by **City St George's, University of London**.
 
 - The source code **relies on a proprietary library** called `CityEngine.jar`.
-- `CityEngine.jar` is **intellectual property of City, University of London** and **cannot be redistributed** in a public repository.
-- For that reason, the actual JAR is **not included** here.
-- The codebase assumes that `CityEngine.jar` is lawfully obtained and available on the **classpath**
+- `CityEngine.jar` is **intellectual property of City St George's, University of London** and **cannot be redistributed** in a public repository.
+- For that reason, the JAR is **not included** here.
+- The codebase assumes that `CityEngine.jar` is lawfully obtained and available on the **classpath**.
 
 ## Testing
 

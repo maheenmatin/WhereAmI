@@ -23,14 +23,6 @@ class GameWorldTest {
     }
 
     @Test
-    public void testEnableEnemyCreation() {
-        // simulate timer event
-        ActionEvent mockActionEvent = mock(ActionEvent.class);
-        gameWorld.actionPerformed(mockActionEvent);
-        verify(gameWorld, times(1)).actionPerformed(mockActionEvent);
-    }
-
-    @Test
     public void testDisableEnemyCreation() {
         gameWorld.disableEnemyCreation();
         assertFalse(gameWorld.getTimer().isRunning());

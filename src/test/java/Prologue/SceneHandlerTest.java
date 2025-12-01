@@ -43,7 +43,6 @@ class SceneHandlerTest {
 
         try (MockedStatic<GameAudio> mockedAudio = Mockito.mockStatic(GameAudio.class)) {
             sceneHandler.callNextScene();
-            System.out.println(sceneHandler.getScene());
             mockedAudio.verify(GameAudio::stopSound);
         }
         verify(mockGameWorld).createSwordsman();
@@ -63,10 +62,8 @@ class SceneHandlerTest {
         // verify callMainGame using spy
         try (MockedStatic<Master> masterSpy = Mockito.mockStatic(Master.class)) {
             sceneHandler.callNextScene();
-            System.out.println(sceneHandler.getScene());
             masterSpy.verify(Master::callMainGame);
         }
-        SceneController mockSceneController = mock(SceneController.class);
         verify(mockGameWorld).stop();
     }
 }
